@@ -3,9 +3,11 @@ from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5.QtGui import QIcon
 
 import fa_backend as fab
+from fa_util import find_data_file
 
 UI_FILE_MAINWINDOW = "fa_mainwindow.ui"
 UI_FILE_STOCK = "stock.ui"
+UI_FILE_ICON = "icon.png"
 
 WINDOW_TITLE = "Fundamental Analysis Tool"
 
@@ -13,9 +15,9 @@ class FaMainWindow(QMainWindow):
 
     def __init__(self, *args):
         QMainWindow.__init__(self, *args)
-        uic.loadUi(UI_FILE_MAINWINDOW, self)
+        uic.loadUi(find_data_file(UI_FILE_MAINWINDOW), self)
         self.setWindowTitle(WINDOW_TITLE)
-        self.setWindowIcon(QIcon("icon.png"))
+        self.setWindowIcon(QIcon(find_data_file("icon.png")))
         self.input_add_stock.returnPressed.connect(self.handle_add_stock)
         self.button_add_stock.clicked.connect(self.handle_add_stock)
         self.button_clear_stock.clicked.connect(self.handle_clear_stock)
@@ -45,7 +47,7 @@ class StockWidget(QWidget):
 
     def __init__(self, ticker):
         QWidget.__init__(self)
-        uic.loadUi(UI_FILE_STOCK, self)
+        uic.loadUi(find_data_file(UI_FILE_STOCK), self)
 
         name = "{} ({})".format(fab.get_name(ticker), fab.get_symbol(ticker))
         currency = fab.get_currency(ticker)
